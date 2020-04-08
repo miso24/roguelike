@@ -16,14 +16,15 @@ class GameScene(BaseScene):
         self.gradation_render = GradationRender()
 
     def update(self):
+        self.player.update()
         if pyxel.btn(pyxel.KEY_LEFT):
-            self.player.char_ctrl.move(Direction.LEFT)
+            self.player.move(Direction.LEFT)
         elif pyxel.btn(pyxel.KEY_UP):
-            self.player.char_ctrl.move(Direction.UP)
+            self.player.move(Direction.UP)
         elif pyxel.btn(pyxel.KEY_RIGHT):
-            self.player.char_ctrl.move(Direction.RIGHT)
+            self.player.move(Direction.RIGHT)
         elif pyxel.btn(pyxel.KEY_DOWN):
-            self.player.char_ctrl.move(Direction.DOWN)
+            self.player.move(Direction.DOWN)
 
     def render(self):
         self.terrain.render(self.player.transform.position)

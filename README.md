@@ -1,2 +1,2 @@
-# Simple Rogue Like Game
+# Simple Rogue Like
 
