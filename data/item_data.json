@@ -1,0 +1,14 @@
+[
+  {
+    "type": "weapon",  
+    "name": "stick",
+    "description": "Just a stick",
+    "value": 5
+  },
+  {
+    "type": "portion",
+    "name": "simple portion",
+    "description": "a small portion",
+    "value": 10
+  }
+]
