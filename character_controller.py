@@ -1,4 +1,4 @@
-from util import Direction, Vector2
+from util import Direction, DirectionVelocity, Vector2
 import copy
 
 
@@ -11,18 +11,11 @@ class CharacterController:
         moved_position = self.transform.position + velocity
         return self.terrain_data.at(moved_position.x, moved_position.y) != 1
 
-    def move(self, direction):
-        velocity = Vector2(0, 0)
-        if direction == Direction.UP:
-            velocity.y = -1
-        elif direction == Direction.LEFT:
-            velocity.x = -1
-        elif direction == Direction.DOWN:
-            velocity.y = 1
-        elif direction == Direction.RIGHT:
-            velocity.x = 1
+    def move(self, direction, on_move_hook):
+        velocity = DirectionVelocity.get(direction)
         self.transform.direction = direction
     
         if self.can_move(velocity):
             self.transform.position.x += velocity.x
             self.transform.position.y += velocity.y
+            on_move_hook()

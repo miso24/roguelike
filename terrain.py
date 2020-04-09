@@ -26,7 +26,7 @@ class Terrain:
             print()
 
     def render(self, vector):
-        self.terrain_render.render(vector.x, vector.y)
+        self.terrain_render.render(vector)
 
     @property
     def data(self):

@@ -32,38 +32,19 @@ class TerrainRender:
     def set_terrain_data(self, terrain_data):
         self.__terrain_data = terrain_data
         tile_data_generator = TileDataGenerator()
-        #self.tile_data = [[{} for y in range(self.__terrain_data.height)] for x in range(self.__terrain_data.width)]
         self.tile_data = tile_data_generator.generate(terrain_data)
-
-    """
-    def __set_tile_data(self):
-        for y in range(self.__terrain_data.height):
-            for x in range(self.__terrain_data.width):
-                value = self.__terrain_data.at(x, y)
-                data_ref = self.tile_data[y][x]
-                data_ref["value"] = value
-
-                if value != 1: continue
-
-                data_ref["top"] = 1 if self.__terrain_data.at(x, y - 1) != 1 else 0
-                data_ref["left"] = 2 if self.__terrain_data.at(x - 1, y) != 1 else 0
-                data_ref["bottom"] = 4 if self.__terrain_data.at(x, y + 1) != 1 else 0
-                data_ref["right"] = 8 if self.__terrain_data.at(x + 1, y) != 1 else 0
-                data_ref["upper_left"] = self.__terrain_data.at(x - 1, y - 1)
-                data_ref["upper_right"] = self.__terrain_data.at(x + 1, y - 1)
-                data_ref["lower_left"] = self.__terrain_data.at(x - 1, y + 1)
-                data_ref["lower_right"] = self.__terrain_data.at(x + 1, y + 1)
-    """
 
     def __get_mapchip_uv(self, chip):
         return chip["u"], chip["v"]
 
-    def render(self, center_x, center_y):
-        map_left = center_x - pyxel.width // 16
-        map_top = center_y - pyxel.height // 16
+    def render(self, center_position):
+        map_left = center_position.x // 8 - pyxel.width // 16
+        map_top = center_position.y // 8 - pyxel.height // 16
         for my in range(self.__terrain_data.height + 2):
             for mx in range(self.__terrain_data.width + 2):
                 dx, dy = (mx - 1) * 8, (my - 1) * 8
+                dx += 8 - center_position.x % 8 - 8
+                dy += 8 - center_position.y % 8 -8
 
                 if map_left + mx < 0 or map_left + mx >= self.__terrain_data.width or map_top + my < 0 or map_top+ my >= self.__terrain_data.height:
                     chip = self.mapchipdata["wall"]["data"][0]
