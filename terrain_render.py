@@ -1,9 +1,17 @@
+from __future__ import annotations
+from typing import List, Dict, Union, Tuple, TYPE_CHECKING
 import pyxel
 import json
 
+
+if TYPE_CHECKING:
+    from terrain_data import TerrainData
+    from util import Vector2
+
+
 class TileDataGenerator:
-    def generate(self, terrain_data):
-        tile_data = [[{} for y in range(terrain_data.height)] for x in range(terrain_data.width)]
+    def generate(self, terrain_data: TerrainData) -> List[List[Dict[str, int]]]:
+        tile_data: List[List[Dict[str, int]]] = [[{} for y in range(terrain_data.height)] for x in range(terrain_data.width)]
         for y in range(terrain_data.height):
             for x in range(terrain_data.width):
                 value = terrain_data.at(x, y)
@@ -24,20 +32,20 @@ class TileDataGenerator:
 
 
 class TerrainRender:
-    def __init__(self):
-        self.__terrain_data = None
+    def __init__(self) -> None:
+        self.__terrain_data: TerrainData
         with open("data/mapchipdata.json") as f:
-            self.mapchipdata = json.load(f)
+            self.mapchipdata = json.load(f) # type: ignore
 
-    def set_terrain_data(self, terrain_data):
+    def set_terrain_data(self, terrain_data: TerrainData) -> None:
         self.__terrain_data = terrain_data
         tile_data_generator = TileDataGenerator()
         self.tile_data = tile_data_generator.generate(terrain_data)
 
-    def __get_mapchip_uv(self, chip):
+    def __get_mapchip_uv(self, chip: Dict[str, int]) -> Tuple[int, int]:
         return chip["u"], chip["v"]
 
-    def render(self, center_position):
+    def render(self, center_position: Vector2) -> None:
         map_left = center_position.x // 8 - pyxel.width // 16
         map_top = center_position.y // 8 - pyxel.height // 16
         for my in range(self.__terrain_data.height + 2):

@@ -1,10 +1,11 @@
+from typing import Tuple, List
 import random
 
 from terrain_data import TerrainData
 
 
 class Rect:
-    def __init__(self, left, top, width, height):
+    def __init__(self, left: int, top: int, width: int, height: int) -> None:
         self.left = left
         self.top = top
         self.right = left + width
@@ -12,7 +13,7 @@ class Rect:
         self.width = width
         self.height = height
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value) -> None:
         if name == "width":
             self.right = self.left + value
         elif name == "height":
@@ -20,29 +21,30 @@ class Rect:
         object.__setattr__(self, name, value)
 
 
+class Region(Rect):
+    def __init__(self, left: int, top: int, width: int, height: int) -> None:
+        super().__init__(left, top, width, height)
+        self.room: Rect
+
+
 class RegionPair:
-    def __init__(self, direction, parent, child):
+    def __init__(self, direction: str, parent: Region, child: Region) -> None:
         self.direction = direction
         self.parent = parent
         self.child = child
 
 
-class Region(Rect):
-    def __init__(self, left, top, width, height):
-        super().__init__(left, top, width, height)
-        self.room = None
-
 class RegionGenerator:
-    def __init__(self, margin_min):
+    def __init__(self, margin_min: int) -> None:
         self.margin_min = margin_min
 
-    def generate(self, width, height):
-        self.regions = []
-        self.region_pairs = []
+    def generate(self, width: int, height: int) -> Tuple[List[Region], List[RegionPair]]:
+        self.regions: List[Region] = []
+        self.region_pairs: List[RegionPair] = []
         self.__split_regions(Region(0, 0, width, height))
         return self.regions, self.region_pairs
 
-    def __split_regions(self, region, split_count=2, before_direction=None):
+    def __split_regions(self, region: Region, split_count: int = 2, before_direction: int = None) -> None:
         if split_count == 0 or region.width < self.margin_min * 2 or region.height < self.margin_min * 2:
             self.regions.append(region)
             return
@@ -73,13 +75,13 @@ class RegionGenerator:
         self.__split_regions(new_region)
 
 class RegionConnecter:
-    def __is_exist_pair(self, region_pairs, parent, child):
+    def __is_exist_pair(self, region_pairs: List[RegionPair], parent: Region, child: Region) -> bool:
         for pair in region_pairs:
             if pair.parent == parent and pair.child == child:
                 return True
         return False
 
-    def connect_regions(self, regions, region_pairs):
+    def connect_regions(self, regions: List[Region], region_pairs: List[RegionPair]) -> None:
         region_num = len(regions)
         trial_num = 1000
         add_road_num = int(region_num * 0.2 + 1)
@@ -97,10 +99,10 @@ class RegionConnecter:
 
 
 class RoomGenerator:
-    def __init__(self, margin_min):
+    def __init__(self, margin_min: int) -> None:
         self.margin_min = margin_min
         
-    def generate(self, regions):
+    def generate(self, regions: List[Region]) -> None:
         for region in regions:
             width = random.randint(self.margin_min,
                                    region.width - self.margin_min)
@@ -115,7 +117,7 @@ class RoomGenerator:
             region.room = Rect(left, top, width, height)
 
 class RoadGenerator:
-    def add_vertical_road(self, roads, parent, child):
+    def add_vertical_road(self, roads: List[Rect], parent: Region, child: Region) -> None:
         parent_room_x = random.randint(
             parent.room.left + 1, parent.room.right - 1)
         parent_room_y = parent.room.bottom
@@ -131,7 +133,7 @@ class RoadGenerator:
         roads.append(
             Rect(child_room_x, parent.bottom, 1, child_room_y - child.top))
 
-    def add_horizontal_road(self, roads, parent, child):
+    def add_horizontal_road(self, roads: List[Rect], parent: Region, child: Region) -> None:
         parent_right = parent.right
         parent_room_x = parent.room.right
         parent_room_y = random.randint(
@@ -147,8 +149,8 @@ class RoadGenerator:
         roads.append(
             Rect(parent_right, child_room_y, child_room_x - parent_right, 1))
 
-    def generate(self, region_pairs):
-        roads = []
+    def generate(self, region_pairs: List[RegionPair]) -> List[Rect]:
+        roads: List[Rect] = []
         for pair in region_pairs:
             parent, child = pair.parent, pair.child
             if pair.direction == "Vertical":
@@ -159,7 +161,7 @@ class RoadGenerator:
 
 
 class TerrainGenerator:
-    def generate(self, width, height):
+    def generate(self, width: int, height: int) -> TerrainData:
         region_margin_min = int(width * 0.2)
         room_margin_min = region_margin_min // 2
         region_generator = RegionGenerator(region_margin_min)
@@ -173,9 +175,9 @@ class TerrainGenerator:
         roads = road_generator.generate(region_pairs)
         return self.__generate_data(width, height, regions, roads)
 
-    def __generate_data(self, width, height, regions, roads):
-        data = [[1 for x in range(width)] for y in range(height)]
-        rooms = []
+    def __generate_data(self, width: int, height: int, regions: List[Region], roads: List[Rect]) -> TerrainData:
+        data: List[List[int]] = [[1 for x in range(width)] for y in range(height)]
+        rooms: List[Rect] = []
         for region in regions:
             room = region.room
             for y in range(room.top, room.bottom):
@@ -189,7 +191,7 @@ class TerrainGenerator:
             elif road.height == 1:
                 data[road.top][road.left:road.right] = [0] * road.width
 
-        stairs_room, start_room = map(lambda region: region.room, random.sample(regions, k=2))
+        stairs_room ,start_room = map(lambda region: region.room, random.sample(regions, k=2))
         stairs_x = random.randint(stairs_room.left, stairs_room.right - 1) 
         stairs_y = random.randint(stairs_room.top, stairs_room.bottom - 1) 
         data[stairs_y][stairs_x] = 2

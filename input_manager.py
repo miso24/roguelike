@@ -2,10 +2,10 @@ import pyxel
 
 
 class MoveKeys:
-    def __init__(self):
+    def __init__(self) -> None:
         self.init()
 
-    def init(self):
+    def init(self) -> None:
         self.left_key = False
         self.right_key = False
         self.up_key = False
@@ -13,10 +13,10 @@ class MoveKeys:
 
 
 class InputManager:
-    def __init__(self):
+    def __init__(self) -> None:
         self.move_keys = MoveKeys()
 
-    def update(self):
+    def update(self) -> None:
         self.move_keys.init()
         if pyxel.btn(pyxel.KEY_LEFT):
             self.move_keys.left_key = True
