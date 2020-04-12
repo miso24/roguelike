@@ -18,3 +18,11 @@ class Item:
     def init(cls, database: ItemDatabase) -> None:
         print("initialize item")
         cls.database = database
+
+    @classmethod
+    def create_by_id(cls, item_id: int) -> Item:
+        return cls(*cls.database.get_by_id(item_id).get_data())
+
+    @classmethod
+    def create_by_name(cls, item_name: str) -> Item:
+        return cls(*cls.database.get_by_name(item_name).get_data())
