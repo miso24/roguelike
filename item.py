@@ -9,8 +9,9 @@ if TYPE_CHECKING:
 class Item:
     database: ClassVar[ItemDatabase]
 
-    def __init__(self, item_type: str, name: str, value: int) -> None:
+    def __init__(self, item_type: str, name: str, description: str, value: int) -> None:
         self.item_type = item_type
+        self.description = description
         self.name = name
         self.value = value
 
