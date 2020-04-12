@@ -1,11 +1,13 @@
 [
   {
+    "id": 0,
     "type": "weapon",  
     "name": "stick",
     "description": "Just a stick",
     "value": 5
   },
   {
+    "id": 1,
     "type": "portion",
     "name": "simple portion",
     "description": "a small portion",
