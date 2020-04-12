@@ -8,9 +8,72 @@
   },
   {
     "id": 1,
+    "type": "weapon",
+    "name": "wood sword",
+    "description": "sword made of wood",
+    "value": 10
+  },
+  {
+    "id": 2,
+    "type": "weapon",
+    "name": "iron sword",
+    "description": "sword made of iron",
+    "value": 20
+  },
+  {
+    "id": 3,
+    "type": "weapon",
+    "name": "legend sword",
+    "description": "very hard sword",
+    "value": 30
+  },
+  {
+    "id": 4,
+    "type": "armor",
+    "name": "plain clothes",
+    "description": "simple clothes",
+    "value": 5
+  },
+  {
+    "id": 5,
+    "type": "arome",
+    "name": "stone armor",
+    "description": "armor made of stone",
+    "value": 10
+  },
+  {
+    "id": 6,
+    "type": "armor",
+    "name": "iron armor",
+    "description": "armor made of iron",
+    "value": 20
+  },
+  {
+    "id": 7,
+    "type": "armor",
+    "name": "legend armor",
+    "description": "awesommeness",
+    "value": 30
+  },
+  {
+    "id": 8,
     "type": "portion",
     "name": "simple portion",
     "description": "a small portion",
     "value": 10
+  },
+  {
+    "id": 9,
+    "type": "portion",
+    "name": "big portion",
+    "description": "a big portion",
+    "value": 30
+  },
+  {
+    "id": 10,
+    "type": "portion",
+    "name": "super portion",
+    "description": "awesommeness",
+    "value": 100
   }
 ]

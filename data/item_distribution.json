@@ -1,0 +1,19 @@
+{
+  "floors": [
+    {
+      "weapon": [0],
+      "armor": [4],
+      "portion": [8]
+    },
+    {
+      "weapon": [0],
+      "armor": [4],
+      "portion": [8]
+    },
+    {
+      "weapon": [0, 1],
+      "armor": [4],
+      "portion": [8]
+    }
+  ]
+}
