@@ -1,10 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from transitions import Machine
 import pyxel
 
 from util import Vector2, Transform, Direction, DirectionVelocity
 from character_controller import CharacterController
-from transitions import Machine
 from player_animator import PlayerAnimator
 
 
@@ -46,4 +46,4 @@ class Player:
     def render(self) -> None:
         dx = pyxel.width // 2 - 4
         dy = pyxel.height // 2 - 4
-        pyxel.blt(dx, dy, 0, *self.animator.get_uv(), 8, 8, 7)
+        pyxel.blt(dx, dy, 0, *self.animator.get_uv(), 8, 8, 14)
